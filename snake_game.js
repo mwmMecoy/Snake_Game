@@ -12,6 +12,50 @@ const gameContainer = document.getElementById('gameContainer')
 //Generate the game board
 const createGameBoardPixels = () => {
   for (let i = 1; i<= TOTAL_PIXEL_COUNT; i++) {
-    gameContainer.innerHTML = `${gameContainer.innerHTML} <div class="gameBoardPixel" id = "pixel${i}"></div>`;
+    gameContainer.innerHTML = `${gameContainer.innerHTML} <div class="gameBoardPixel" id = "pixel${i}"></div>`
   }
 }
+
+//Shorten references to game pixels
+const gameBoardPixels = document.getElementsByClassName('gameBoardPixel')
+
+//Create randomly generated food items in the game board
+let currentFoodPosition = 0;
+const createFood = () => {
+    gameBoardPixels[currentFoodPosition].classList.remove('food')
+    currentFoodPosition = Math.floor(Math.random()*TOTAL_PIXEL_COUNT)
+    gameBoardPixels[currentFoodPosition].classList.add('food')
+}
+
+//Start setting up snake behavior
+//Matching arrow keys to their input code
+const LEFT_DIR = 37
+const UP_DIR = 38
+const RIGHT_DIR = 39
+const DOWN_DIR = 40
+
+let snakeCurrentDirection = RIGHT_DIR
+
+//Check for valid user input and change snake direction variable
+const changeDirection = newDirectionCode => {
+    if(snakeCurrentDirection === newDirectionCode) return;
+
+    //Snake can't turn 180 degrees
+    if(newDirectionCode == LEFT_DIR && snakeCurrentDirection !== RIGHT_DIR) {
+        snakeCurrentDirection = newDirectionCode
+    } else if(newDirectionCode == UP_DIR && snakeCurrentDirection!== DOWN_DIR) {
+        snakeCurrentDirection = newDirectionCode
+    } else if(newDirectionCode == RIGHT_DIR && snakeCurrentDirection!== LEFT_DIR) {
+        snakeCurrentDirection = newDirectionCode
+    } else if(newDirectionCode == DOWN_DIR && snakeCurrentDirection!== UP_DIR) {
+        snakeCurrentDirection = newDirectionCode
+    } 
+}
+
+//set starting point for snake on load
+let currentHeadPosition = TOTAL_PIXEL_COUNT/2;
+
+//Set starting length 
+let snakeLength = 200
+
+//start moving snake
