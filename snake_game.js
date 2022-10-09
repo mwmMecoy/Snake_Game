@@ -115,7 +115,7 @@ const moveSnake = () => {
     if(currentHeadPosition == currentFoodPosition) {
         totalFoodEaten++
         document.getElementById("pointsEarned").innerText = totalFoodEaten
-        snakeLength += 100
+        snakeLength += 1000
         createFood()
     }
 
